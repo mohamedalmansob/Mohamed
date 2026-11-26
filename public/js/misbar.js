@@ -112,29 +112,73 @@ function updateBrandPreviewColors() {
     document.getElementById('nav-brand-icon').style.backgroundColor = c1;
 }
 
-function saveBrandDNA() {
-    const fullName = document.getElementById('dna-name-field').value.trim();
-    const sector = document.getElementById('dna-sector-field').value;
-    const geo = document.getElementById('dna-geo-field').value;
-    const uvp = document.getElementById('dna-uvp-field').value;
-    const tone = document.getElementById('dna-tone-field').value;
+async function saveBrandDNA() {
+    const getValue = (id) => document.getElementById(id) ? .value ? .trim() ? ? '';
 
-    const parts = fullName.split('—');
-    const shortName = parts[0].trim() || fullName;
-    const tagline = parts[1] ? parts[1].trim() : "هدايا وتصاميم مخصصة";
+    const data = {
+        name: getValue('dna-name-field'),
+        industry: getValue('dna-sector-field'),
+        geographic_scope: getValue('dna-geo-field'),
+        products_services: getValue('dna-products-field'),
+        uvp: getValue('dna-uvp-field'),
+        primary_color: getValue('dna-color-primary'),
+        secondary_color: getValue('dna-color-secondary'),
+        accent_color: getValue('dna-color-accent'),
+        visual_style: getValue('dna-visual-style'),
+        tone_of_voice: getValue('dna-tone-field'),
+        preferred_dialect: getValue('dna-dialect-field'),
+        business_goals: getValue('dna-goals-field')
+    };
 
-    document.getElementById('nav-brand-name').textContent = shortName;
-    document.getElementById('nav-brand-geo').textContent = geo.split('(')[0].trim();
-    document.getElementById('nav-brand-tagline').textContent = `${tagline} • ${sector}`;
-    document.getElementById('preview-dna-title').textContent = shortName;
-    document.getElementById('preview-dna-sector').textContent = sector;
-    document.getElementById('preview-dna-uvp').textContent = uvp;
-    document.getElementById('preview-dna-tone').textContent = `النبرة: ${tone.split('،')[0]}`;
-    document.getElementById('preview-dna-geo').textContent = `النطاق: ${geo.split('(')[0].trim()}`;
-    updateBrandPreviewColors();
+    try {
+        const response = await fetch(window.MISBAR_ROUTES.brandSave, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify(data)
+        });
 
-    showToast('تم حفظ وتحديث ملف Brand DNA ومزامنته مع كافة وحدات مسبار');
+        if (!response.ok) {
+            const result = await response.json();
+
+            if (response.status === 422 && result.errors) {
+                const messages = Object.values(result.errors).flat();
+                alert(messages.join('\n'));
+                return;
+            }
+
+            throw new Error(result.message || 'تعذر حفظ البيانات.');
+        }
+
+        const fullName = data.name;
+        const parts = fullName.split('—');
+        const shortName = parts[0].trim() || fullName;
+        const tagline = parts[1] ? parts[1].trim() : 'هدايا وتصاميم مخصصة';
+
+        document.getElementById('nav-brand-name').textContent = shortName;
+        document.getElementById('nav-brand-geo').textContent = data.geographic_scope.split('(')[0].trim();
+        document.getElementById('nav-brand-tagline').textContent = `${tagline} • ${data.industry}`;
+
+        document.getElementById('preview-dna-title').textContent = shortName;
+        document.getElementById('preview-dna-sector').textContent = data.industry;
+        document.getElementById('preview-dna-uvp').textContent = data.uvp;
+        document.getElementById('preview-dna-tone').textContent = `النبرة: ${data.tone_of_voice.split('،')[0]}`;
+        document.getElementById('preview-dna-geo').textContent = `النطاق: ${data.geographic_scope.split('(')[0].trim()}`;
+
+        updateBrandPreviewColors();
+
+        showToast('تم حفظ بيانات Brand DNA في قاعدة البيانات بنجاح');
+
+    } catch (error) {
+        console.error('Brand DNA save error:', error);
+        alert('حدث خطأ أثناء حفظ بيانات العلامة التجارية. يرجى المحاولة مرة أخرى.');
+    }
 }
+
 
 function resetFloriaBrandDNA() {
     document.getElementById('dna-name-field').value = "فلوريا | Floria — لمسات تُزهر بالجمال";

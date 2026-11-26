@@ -3,6 +3,8 @@
 namespace App\Actions\Fortify;
 
 use App\Models\User;
+use App\Models\Workspace;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -16,7 +18,7 @@ class CreateNewUser implements CreatesNewUsers
     /**
      * Validate and create a newly registered user.
      *
-     * @param  array<string, string>  $input
+     * @param array<string, string> $input
      *
      * @throws ValidationException
      */
@@ -24,6 +26,7 @@ class CreateNewUser implements CreatesNewUsers
     {
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
+
             'email' => [
                 'required',
                 'string',
@@ -31,13 +34,30 @@ class CreateNewUser implements CreatesNewUsers
                 'max:255',
                 Rule::unique(User::class),
             ],
+
+            'workspace_name' => [
+                'required',
+                'string',
+                'max:150',
+            ],
+
             'password' => $this->passwordRules(),
         ])->validate();
 
-        return User::create([
-            'name' => $input['name'],
-            'email' => $input['email'],
-            'password' => Hash::make($input['password']),
-        ]);
+        return DB::transaction(function () use ($input) {
+
+            // إنشاء مساحة العمل أولاً
+            $workspace = Workspace::create([
+                'name' => $input['workspace_name'],
+            ]);
+
+            // إنشاء المستخدم وربطه بمساحة العمل
+            return User::create([
+                'name' => $input['name'],
+                'email' => $input['email'],
+                'password' => Hash::make($input['password']),
+                'workspace_id' => $workspace->id,
+            ]);
+        });
     }
 }

@@ -48,7 +48,12 @@
             <span id="app-toast-msg">تم التنفيذ بنجاح</span>
         </div>
     </div>
-    <script>window.MISBAR_ROUTES = @json($routes ?? []); window.MISBAR_ACTIVE_UNIT = @json($activeUnit ?? null);</script>
-    <script src="{{ asset('js/misbar.js') }}" defer></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script>
+        window.MISBAR_ROUTES = @json($routes ?? []);
+        window.MISBAR_ROUTES.brandSave = @json(route('brand-dna.update'));
+        window.MISBAR_ACTIVE_UNIT = @json($activeUnit ?? null);
+    </script>
+        <script src="{{ asset('js/misbar.js') }}" defer></script>
 </body>
 </html>

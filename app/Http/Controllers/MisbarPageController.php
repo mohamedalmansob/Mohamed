@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Brand;
 
 class MisbarPageController extends Controller
 {
@@ -33,10 +35,18 @@ class MisbarPageController extends Controller
     {
         abort_unless(isset(self::WORKSPACE_VIEWS[$unit]), 404);
 
-        return view(self::WORKSPACE_VIEWS[$unit]['view'], [
+        $data = [
             'activeUnit' => self::WORKSPACE_VIEWS[$unit]['active'],
             'routes' => $this->clientRoutes(),
-        ]);
+        ];
+
+        if ($unit === 'brand') {
+            $data['brand'] = Brand::where('workspace_id', Auth::user()->workspace_id)
+                ->latest()
+                ->first();
+        }
+
+        return view(self::WORKSPACE_VIEWS[$unit]['view'], $data);
     }
 
     private function clientRoutes(): array
