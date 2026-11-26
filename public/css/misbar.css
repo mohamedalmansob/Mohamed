@@ -1,0 +1,63 @@
+body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #F1F5F9;
+            color: #0F172A;
+            overflow-x: hidden;
+        }
+        h1, h2, h3, h4, .font-heading {
+            font-family: 'Cairo', sans-serif;
+        }
+        /* تدرج هوية مسبار المستخرج من الشعار */
+        .misbar-gradient {
+            background: linear-gradient(135deg, #0A1E46 0%, #16367A 45%, #6E2CF2 100%);
+        }
+        .misbar-accent-gradient {
+            background: linear-gradient(90deg, #0088FF 0%, #6E2CF2 60%, #FF7A00 100%);
+        }
+        .auth-pattern {
+            background-color: #07132B;
+            background-image: 
+                radial-gradient(circle at 15% 20%, rgba(0, 136, 255, 0.22) 0%, transparent 45%),
+                radial-gradient(circle at 85% 80%, rgba(110, 44, 242, 0.25) 0%, transparent 45%),
+                radial-gradient(circle at 50% 10%, rgba(255, 122, 0, 0.12) 0%, transparent 35%);
+        }
+        /* شريط التمرير */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #E2E8F0;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #94A3B8;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0A1E46;
+        }
+        .card-elevated {
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            box-shadow: 0 4px 20px -2px rgba(10, 30, 70, 0.05);
+            transition: all 0.2s ease;
+        }
+        .card-elevated:hover {
+            box-shadow: 0 10px 25px -5px rgba(10, 30, 70, 0.1);
+        }
+        input[type="range"] {
+            -webkit-appearance: none;
+            background: #E2E8F0;
+            height: 8px;
+            border-radius: 8px;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0088FF, #6E2CF2);
+            cursor: pointer;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 8px rgba(110, 44, 242, 0.4);
+        }
