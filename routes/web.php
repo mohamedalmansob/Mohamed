@@ -1,9 +1,9 @@
-
 <?php
 
 use App\Http\Controllers\EmailVerificationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MisbarPageController;
+use App\Http\Controllers\BrandController; // <--- 1. أضف هذا السطر في الأعلى
 
 
 
@@ -55,6 +55,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/workspace/brand-dna', [MisbarPageController::class, 'workspace'])
         ->defaults('unit', 'brand')
         ->name('brand-dna.edit');
+
+    // <--- 2. أضف هذين السطرين هنا تحت Brand DNA مباشرة:
+    Route::post('/workspace/brand-dna', [BrandController::class, 'storeOrUpdate'])
+        ->name('brand-dna.save');
+
+    Route::post('/workspace/brand-dna/generate', [BrandController::class, 'generate'])
+        ->name('brand-dna.generate');
 
     // Market Radar
     Route::get('/workspace/market-radar', [MisbarPageController::class, 'workspace'])
