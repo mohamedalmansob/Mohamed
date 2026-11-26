@@ -73,8 +73,7 @@ return [
     |
     */
 
-    'home' => '/home',
-
+    'home' => '/workspace',
     /*
     |--------------------------------------------------------------------------
     | Fortify Routes Prefix / Subdomain

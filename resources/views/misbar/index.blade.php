@@ -171,10 +171,7 @@
 
                 <div class="mt-6 pt-5 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500">
                     <span>تم تجهيز بيانات مشروع <strong>فلوريا (Floria)</strong> مسبقاً للمعاينة</span>
-                    <button onclick="enterPlatformDirectly()" class="text-amber-600 hover:text-amber-700 font-bold flex items-center gap-1">
-                        <i class="fa-solid fa-bolt"></i>
-                        <span>تخطي والدخول الفوري للمنصة</span>
-                    </button>
+                  
                 </div>
             </div>
         </div>
