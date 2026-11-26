@@ -1,9 +1,19 @@
 
 <?php
 
+use App\Http\Controllers\EmailVerificationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MisbarPageController;
 
+
+
+
+
+Route::view('/registration-notice', 'auth.registration-notice')
+    ->name('registration.notice');
+Route::get('/email/confirm/{id}/{hash}', [EmailVerificationController::class, 'verify'])
+    ->middleware(['signed', 'throttle:6,1'])
+    ->name('misbar.verification.verify');
 /*
 |--------------------------------------------------------------------------
 | Public Routes
@@ -29,7 +39,7 @@ Route::get('/login', [MisbarPageController::class, 'login'])
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
 
     // Main workspace
     Route::get('/workspace', [MisbarPageController::class, 'workspace'])
