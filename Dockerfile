@@ -28,3 +28,5 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction \
     && chown -R www-data:www-data storage bootstrap/cache
 
 EXPOSE 10000
+
+CMD ["sh", "-c", "php artisan migrate --force && apache2-foreground"]
