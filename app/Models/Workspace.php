@@ -47,8 +47,11 @@ class Workspace extends Model
      * علاقة 1:N: يرجع العلامات التجارية / المشاريع التابعة لمساحة العمل.
      * ملاحظة: إذا قمت بجعل workspace_id فريداً (unique) في جدول brands فحوّلها إلى hasOne.
      */
-    public function brands()
-    {
-        return $this->hasMany(Brand::class, 'workspace_id');
-    }
+    /**
+ * مساحة العمل لديها علامة تجارية واحدة فقط.
+ */
+public function brand()
+{
+    return $this->hasOne(Brand::class, 'workspace_id');
+}
 }

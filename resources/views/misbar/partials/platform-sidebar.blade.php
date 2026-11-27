@@ -1,6 +1,6 @@
-<aside class="w-full lg:w-72 shrink-0 space-y-4">
-                <div class="bg-white rounded-2xl p-3.5 border border-slate-200 shadow-sm">
-                    <div class="text-[11px] font-extrabold text-slate-400 px-3 py-1.5 flex items-center justify-between">
+<aside class="w-full lg:w-72 shrink-0 space-y-4 self-stretch">
+    <div class="bg-white rounded-2xl p-3.5 border border-slate-200 shadow-sm h-full">
+                            <div class="text-[11px] font-extrabold text-slate-400 px-3 py-1.5 flex items-center justify-between">
                         <span>وحدات منظومة مسبار (14 وحدة)</span>
                         <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
                     </div>

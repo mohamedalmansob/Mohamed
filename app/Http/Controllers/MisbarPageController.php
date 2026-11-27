@@ -31,23 +31,31 @@ class MisbarPageController extends Controller
         return view('auth.login', ['routes' => $this->clientRoutes()]);
     }
 
-    public function workspace(string $unit = 'brain'): View
-    {
-        abort_unless(isset(self::WORKSPACE_VIEWS[$unit]), 404);
+    
+public function workspace(string $unit = 'brain'): View
+{
+    abort_unless(isset(self::WORKSPACE_VIEWS[$unit]), 404);
 
-        $data = [
-            'activeUnit' => self::WORKSPACE_VIEWS[$unit]['active'],
-            'routes' => $this->clientRoutes(),
-        ];
+    $data = [
+        'activeUnit' => self::WORKSPACE_VIEWS[$unit]['active'],
+        'routes' => $this->clientRoutes(),
+    ];
 
-        if ($unit === 'brand') {
-            $data['brand'] = Brand::where('workspace_id', Auth::user()->workspace_id)
-                ->latest()
-                ->first();
+    if ($unit === 'brand') {
+        $user = Auth::user();
+
+        $brandQuery = Brand::query();
+
+        if ($user && $user->workspace_id) {
+            $brandQuery->where('workspace_id', $user->workspace_id);
         }
 
-        return view(self::WORKSPACE_VIEWS[$unit]['view'], $data);
+        $data['brand'] = $brandQuery->first();
     }
+
+    return view(self::WORKSPACE_VIEWS[$unit]['view'], $data);
+}
+
 
     private function clientRoutes(): array
     {

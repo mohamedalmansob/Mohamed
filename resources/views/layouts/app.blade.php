@@ -51,8 +51,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <script>
         window.MISBAR_ROUTES = @json($routes ?? []);
-        window.MISBAR_ROUTES.brandSave = @json(route('brand-dna.update'));
-        window.MISBAR_ACTIVE_UNIT = @json($activeUnit ?? null);
+        window.MISBAR_ROUTES.brandSave = @json(route('brand-dna.save'));
+                window.MISBAR_ACTIVE_UNIT = @json($activeUnit ?? null);
     </script>
         <script src="{{ asset('js/misbar.js') }}" defer></script>
 </body>
