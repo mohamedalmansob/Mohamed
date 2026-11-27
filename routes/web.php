@@ -16,9 +16,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/workspace/brand-profile')
     ->name('home');
-    Route::redirect('/login', '/workspace/brand-profile')
-    ->name('login');
-    
+    Route::redirect('/login', '/workspace/brand-profile');
+
 Route::view('/registration-notice', 'auth.registration-notice')
     ->name('registration.notice');
 
